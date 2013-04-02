@@ -34,7 +34,7 @@ def hash_distance(s1, s2):
   return bin(int(s1,16)^int(s2,16)).zfill(512).count("1")
 
 # get a random string from the pool of printable characters
-def random_string(length=24):
+def get_random_string(length=24):
   return ''.join(random.choice(string.printable) for i in range(length))
 
 
@@ -43,16 +43,12 @@ def random_string(length=24):
 # but hey whatever
 def hashify(target=goalnum,wordlength=randlength):
   h = skein1024(digest_bits=1024)
-  h.update((random_string(wordlength).encode('utf-8')))
+  randstr = get_random_string(randlength)
+  h.update((randstr.encode('utf-8')))
   dig = h.hexdigest()
   hash_score = hash_distance(dig, target_hash)
   if (hash_score <= target):
-    print("************************   WHOA DOGGY   ****************************")
-    print()
-    print("Score {0} found! '{1}' yields a beautiful hash of:\n{2}"
-        .format(hash_score, randstr, dig))
-    print()
-    print("********************************************************************")
+    woot(hash_score, randstr, dig)
   return hash_score
 
 # loops hashify, using the timeit module to benchmark the execution time
@@ -67,6 +63,14 @@ def bench_hash(tries=numtries, target=goalnum):
 
   print("\nStarted {0}, Finished at {1}.".format(start_time, end_time))
   print("Computed {0} hashes in {1} seconds.".format(numtries, total_time))
+
+def woot(hash_score, inputstr, hashdig):
+  print("************************   WHOA DOGGY   ****************************")
+  print()
+  print("Score {0} found! '{1}' yields a beautiful hash of:\n{2}"
+      .format(hash_score, inputstr, hashdig))
+  print()
+  print("********************************************************************")
 
 
 """
@@ -90,15 +94,10 @@ def hash_loop(tries=numtries, target=goalnum):
         lowest_found = hash_score
 
     if (hash_score <= target):
-      print("************************   WHOA DOGGY   ***************************")
-      print()
-      print("Score {0} found! '{1}' yields a beautiful hash of:\n{2}"
-          .format(hash_score, randstr + str(x), dig))
-      print()
-      print("***********************************************************************")
-
+      woot(hash_score, randstr, dig)
   end_time = datetime.now() # voila!
   total_time = end_time - start_time
+
   print("\nComputed {0} hashes in {1}. Lowest score achieved was {2}.".format(numtries, total_time, lowest_found))
 """
 
