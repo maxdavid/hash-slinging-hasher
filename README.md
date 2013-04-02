@@ -8,6 +8,7 @@ A program that brute-forces the [Skein hashing algorithm](http://www.skein-hash.
 We've currently got evergreen.edu 411 bits off the target hash on the [leaderboards](http://almamater.xkcd.com/best.csv). While good, this is still unnacceptable
 
 Make sure [pyskein](http://pythonhosted.org/pyskein/) is installed (pip install pyskein) and run:
+
     python3 xkcd-hasher.py <num of hash attempts> <length of input string> <score to beat>
 
 
@@ -18,5 +19,5 @@ Make sure [pyskein](http://pythonhosted.org/pyskein/) is installed (pip install 
 * add execnet implementation
 * scrape evergreen's current placement from the leaderboard automatically
 * notify a successful input (< target score) in a more alertive way
- * (most likely by triggering /usr/local/sbin/epic_cuckoo.sh)
-* do I *really* need a TODO? i mean seriously 
+ * most likely by triggering /usr/local/sbin/epic_cuckoo.sh
+* do I *really* need a TODO? this should just be a gist in all seriousness 
