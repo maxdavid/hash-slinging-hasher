@@ -33,9 +33,9 @@ if (len(sys.argv) == 4):
 def hash_distance(s1, s2):
   return bin(int(s1,16)^int(s2,16)).zfill(512).count("1")
 
-# get a random string from the pool of printable characters
+# get a random string from the pool of ascii letters
 def get_random_string(length=24):
-  return ''.join(random.choice(string.printable) for i in range(length))
+  return ''.join(random.choice(string.ascii_letters) for i in range(length))
 
 def get_skein_hash(input_string):
   h = skein1024(digest_bits=1024)
