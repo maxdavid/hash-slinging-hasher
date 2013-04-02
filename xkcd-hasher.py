@@ -39,12 +39,12 @@ def get_random_string(length=24):
 
 def get_skein_hash(input_string):
   h = skein1024(digest_bits=1024)
-  h.update(input_string)
+  h.update(input_string.encode('utf-8'))
   return h.hexdigest()
 
 # skein it up! 
-def hashify(in_hash=get_random_string()):
-  dig = get_skein_hash(in_hash)
+def hashify(inputstr=get_random_string()):
+  dig = get_skein_hash(inputstr)
   hash_score = hash_distance(dig, target_hash)
   return hash_score
 
@@ -55,8 +55,8 @@ def hash_loop(tries=numtries, target=goalnum):
   print("Started {}".format(start_time))
 
   for x in range(tries):
-    in_hash = (randstr + str(x)).encode('utf-8')
-    hash_score = hashify(in_hash)
+    inputstr = randstr + str(x)
+    hash_score = hashify(inputstr)
     if (lowest_found == 0):
       lowest_found = hash_score
     else:
@@ -64,7 +64,7 @@ def hash_loop(tries=numtries, target=goalnum):
         lowest_found = hash_score
 
     if (hash_score <= target):
-      woot(hash_score, in_hash)
+      woot(hash_score, inputstr)
   end_time = datetime.now() # voila!
   print("Finished {}".format(end_time))
 
@@ -77,6 +77,7 @@ def woot(hash_score, inputstr):
   print()
   print("Score {0} found! '{1}' yields a beautiful hash of:\n{2}"
       .format(hash_score, inputstr, get_skein_hash(inputstr)))
+  print("(input encoded in utf-8: {})".format(inputstr.encode('utf-8')))
   print()
   print("********************************************************************")
 
