@@ -37,56 +37,26 @@ def hash_distance(s1, s2):
 def get_random_string(length=24):
   return ''.join(random.choice(string.printable) for i in range(length))
 
+def get_skein_hash(input_string):
+  h = skein1024(digest_bits=1024)
+  h.update(input_string)
+  return h.hexdigest()
 
 # skein it up! 
-# not the most optimized hash brute-forcer (it makes a new random word *each time*) 
-# but hey whatever
-def hashify(target=goalnum,wordlength=randlength):
-  h = skein1024(digest_bits=1024)
-  randstr = get_random_string(randlength)
-  h.update((randstr.encode('utf-8')))
-  dig = h.hexdigest()
+def hashify(in_hash=get_random_string()):
+  dig = get_skein_hash(in_hash)
   hash_score = hash_distance(dig, target_hash)
-  if (hash_score <= target):
-    woot(hash_score, randstr, dig)
   return hash_score
-
-# loops hashify, using the timeit module to benchmark the execution time
-def bench_hash(tries=numtries, target=goalnum):
-  start_time = datetime.now()
-  print("Started {}".format(start_time))
-
-  total_time = timeit.timeit("hashify()", setup="from __main__ import hashify", number=tries)
-  
-  end_time = datetime.now() # voila!
-  print("Finished {}".format(end_time))
-
-  print("\nStarted {0}, Finished at {1}.".format(start_time, end_time))
-  print("Computed {0} hashes in {1} seconds.".format(numtries, total_time))
-
-def woot(hash_score, inputstr, hashdig):
-  print("************************   WHOA DOGGY   ****************************")
-  print()
-  print("Score {0} found! '{1}' yields a beautiful hash of:\n{2}"
-      .format(hash_score, inputstr, hashdig))
-  print()
-  print("********************************************************************")
-
-
-"""
-# This works fine, but abandoned for hashify and bench_hash instead. 
-# Kept for posterity (and lack of using git)
 
 def hash_loop(tries=numtries, target=goalnum):
   lowest_found = 0
+  randstr = get_random_string(randlength)
   start_time = datetime.now() # ready, set
+  print("Started {}".format(start_time))
 
   for x in range(tries):
-    h = skein1024(digest_bits=1024)
-    h.update((randstr + str(x)).encode('utf-8'))
-    dig = h.hexdigest()
-    print(dig)
-    hash_score = hash_distance(dig, target_hash)
+    in_hash = (randstr + str(x)).encode('utf-8')
+    hash_score = hashify(in_hash)
     if (lowest_found == 0):
       lowest_found = hash_score
     else:
@@ -94,12 +64,21 @@ def hash_loop(tries=numtries, target=goalnum):
         lowest_found = hash_score
 
     if (hash_score <= target):
-      woot(hash_score, randstr, dig)
+      woot(hash_score, in_hash)
   end_time = datetime.now() # voila!
-  total_time = end_time - start_time
+  print("Finished {}".format(end_time))
 
-  print("\nComputed {0} hashes in {1}. Lowest score achieved was {2}.".format(numtries, total_time, lowest_found))
-"""
+  total_time = end_time - start_time
+  print("\nStarted {0}, Finished at {1}.".format(start_time, end_time))
+  print("Computed {0} hashes in {1}. Lowest score achieved was {2}.".format(numtries, total_time, lowest_found))
+
+def woot(hash_score, inputstr):
+  print("************************   WHOA DOGGY   ****************************")
+  print()
+  print("Score {0} found! '{1}' yields a beautiful hash of:\n{2}"
+      .format(hash_score, inputstr, get_skein_hash(inputstr)))
+  print()
+  print("********************************************************************")
 
 if __name__ == "__main__":
-  bench_hash()
+  hash_loop()
