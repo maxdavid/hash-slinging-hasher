@@ -23,3 +23,4 @@ Make sure [pyskein](http://pythonhosted.org/pyskein/) is installed (pip install 
 * notify a successful input (< target score) in a more alertive way
  * most likely by triggering /usr/local/sbin/epic_cuckoo.sh
 * do I *really* need a TODO? this should just be a gist in all seriousness 
+ * yep. it's [a gist now.](https://gist.github.com/pipecork/5295983)
