@@ -5,7 +5,7 @@ Hash Slinging Hasher
 
 A program that brute-forces the [Skein hashing algorithm](http://www.skein-hash.info/) in an attempt to win xkcd's [hash-breaking competition](http://almamater.xkcd.com/) for The Evergreen State College. Made real quick and super sloppy. To be run on the [SLACR](http://github.com/slacr/) cluster, or really any other computer that runs python.
 
-We've currently got evergreen.edu only 411 bits off the target hash on the [leaderboards](http://almamater.xkcd.com/best.csv). While good, look at all those other punks who are currently beating us! Unnacceptable.
+We've currently got evergreen.edu only ~~411~~ 409 bits off the target hash on the [leaderboards](http://almamater.xkcd.com/best.csv). While good, look at all those other punks who are currently beating us! Unnacceptable.
 
 
 #### Usage
