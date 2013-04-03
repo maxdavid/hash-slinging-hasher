@@ -12,11 +12,22 @@ import timeit
 import string
 import random
 import sys
+import urllib.request
 
-numtries = 10000000  # 10 million
-randlength = 24      # length of random word to hash
-goalnum = 409        # current evergreen.edu score
+numtries = 10000000             # default 10 million attempts
+randlength = 24                 # length of random word to hash
+high_score = 411                # hamdist to beat
 target_hash = '5b4da95f5fa08280fc9879df44f418c8f9f12ba424b7757de02bbdfbae0d4c4fdf9317c80cc5fe04c6429073466cf29706b8c25999ddd2f6540d4475cc977b87f4757be023f19b8f4035d7722886b78869826de916a79cf9c94cc79cd4347d24b567aa3e2390a573a373a48a5e676640c79cc70197e1c5e7f902fb53ca1858b6'
+
+# scrape the leaderboard and grab the current highscore for evergreen.edu
+def get_target_goal():
+  leaderboard = urllib.request.urlopen('http://almamater.xkcd.com/').readlines()
+  for line in leaderboard:
+    line = line.decode().strip()
+    place = line.replace("\"", "").split(",")
+    if place[0] == "evergreen.edu":
+      return int(place[1])
+high_score = get_target_goal()
 
 # sloppy args
 # [1] = number of hashes to compute
@@ -27,7 +38,7 @@ if (len(sys.argv) > 1):
 if (len(sys.argv) == 3):
   randlength = int(sys.argv[2])
 if (len(sys.argv) == 4):
-  goalnum = int(sys.argv[3])
+  high_score = int(sys.argv[3])
 
 # get xor of our hash and the target hash
 def hash_distance(s1, s2):
@@ -48,7 +59,7 @@ def hashify(inputstr=get_random_string()):
   hash_score = hash_distance(dig, target_hash)
   return hash_score
 
-def hash_loop(tries=numtries, target=goalnum):
+def hash_loop(tries=numtries, target=high_score):
   lowest_found = 0
   randstr = get_random_string(randlength)
   start_time = datetime.now() # ready, set

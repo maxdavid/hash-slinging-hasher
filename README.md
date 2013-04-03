@@ -19,7 +19,7 @@ Make sure [pyskein](http://pythonhosted.org/pyskein/) is installed (pip install 
 
 #### TODO
 * add execnet implementation
-* scrape evergreen's current placement from the leaderboard automatically
+* ~~scrape evergreen's current placement from the leaderboard automatically~~
 * notify a successful input (< target score) in a more alertive way
  * most likely by triggering /usr/local/sbin/epic_cuckoo.sh
 * do I *really* need a TODO? this should just be a gist in all seriousness 
