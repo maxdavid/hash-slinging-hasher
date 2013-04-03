@@ -73,13 +73,14 @@ def hash_loop(tries=numtries, target=goalnum):
   print("Computed {0} hashes in {1}. Lowest score achieved was {2}.".format(numtries, total_time, lowest_found))
 
 def woot(hash_score, inputstr):
-  print("************************   WHOA DOGGY   ****************************")
+  print("\n************************   WHOA DOGGY   ****************************")
   print()
+  print("{0}".format(datetime.now().strftime("%m/%d/%Y %H:%M")))
   print("Score {0} found! '{1}' yields a beautiful hash of:\n{2}"
       .format(hash_score, inputstr, get_skein_hash(inputstr)))
   print("(input encoded in utf-8: {})".format(inputstr.encode('utf-8')))
   print()
-  print("********************************************************************")
+  print("********************************************************************\n")
 
 if __name__ == "__main__":
   hash_loop()
